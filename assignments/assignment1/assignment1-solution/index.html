@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" ng-app='LunchCheck'>
+
+<head>
+  <script src="angular.min.js"></script>
+  <script src="app.js"></script>
+  <title>Lunch Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/bootstrap.min.css">
+  <style>
+    .message {
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" ng-controller='LunchCheckController'>
+    <h1>Lunch Checker</h1>
+    <ul>
+      <lh>BONUS features implemented:</lh>
+      <li>If the message is "Enjoy!" or "Too much!", make the font color green. If the message is "Please enter data first", make the font color red.</li>
+      <li>If the message is "Enjoy!" or "Too much!", make the border color around the textbox green. If the message is "Please enter data first", make the border color around the textbox red.</li>
+      <li>Implement the case of not counting an 'empty' item towards the count of how many items there are in the list. 'Empty' here means either "" (empty string) or a string with just spaces in it.</li>
+    </ul>
+
+    <div class="form-group">
+      <input id="lunch-menu" type="text" ng-model="lunchToCount" placeholder="list comma separated dishes you usually have for lunch"
+        class="form-control" style="border-color: {{countLunchColor}}">
+    </div>
+    <div class="form-group">
+      <button class="btn btn-default" ng-click="countLunch()">Check If Too Much</button>
+    </div>
+    <div class="form-group message" style="color:{{countLunchColor}}">
+      <!-- Your message can go here. -->
+      {{ countLunchMessage }}
+    </div>
+  </div>
+
+</body>
+
+</html>
