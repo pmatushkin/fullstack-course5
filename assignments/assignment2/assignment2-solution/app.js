@@ -8,38 +8,71 @@
 
     ToBuyController.$inject = ['ShoppingListCheckOffService'];
     function ToBuyController(ShoppingListCheckOffService) {
+        var toBuyList = this;
 
+        // declare item list and isEmpty() function for to-buy controller
+        var itemList = ShoppingListCheckOffService.getItemsToBuy();
+        toBuyList.items = itemList;
+        toBuyList.isItemListEmpty = function() {
+            return ShoppingListCheckOffService.isItemsToBuyEmpty;
+        }
+
+        // declare buyItem() function
+        toBuyList.buyItem = function(itemIndex) {
+            ShoppingListCheckOffService.buyItem(itemIndex);
+        }
     }
 
     AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
     function AlreadyBoughtController(ShoppingListCheckOffService) {
+        var alreadyBoughtList = this;
 
+        // declare item list and isEmpty() function for already-bought controller
+        var itemList = ShoppingListCheckOffService.getItemsBought();
+        alreadyBoughtList.items = itemList;
+        alreadyBoughtList.isItemListEmpty = function() {
+            return ShoppingListCheckOffService.isItemsBoughtEmpty;
+        }
     }
 
     function ShoppingListCheckOffService() {
         var service = this;
 
-        // List of shopping items
+        // List of to-buy items and the corresponding isEmpty variable
         var itemsToBuy = getItemsToBuy();
-        // console.log(itemsToBuy);
+        service.getItemsToBuy = function() {
+            return itemsToBuy;
+        }
+        service.isItemsToBuyEmpty = isItemListEmpty(itemsToBuy);
 
-        // List of bought items
+        // List of already-bought items and the corresponding isEmpty variable
         var itemsBought = [];
-        // console.log(itemsBought);
+        service.getItemsBought = function() {
+            return itemsBought;
+        }
+        service.isItemsBoughtEmpty = isItemListEmpty(itemsBought);
 
-        service.buyItem = function(itemName) {
-            var itemBought = itemsToBuy.find(i => i.name === itemName);
+        // Implementation of buyItem() function
+        service.buyItem = function(itemIndex) {
+            var itemBought;
+            // Find the bought item
+            if ((0 <= itemIndex) && (itemIndex <= itemsToBuy.length)) {
+                itemBought = itemsToBuy[itemIndex];
+            }
+
+            // Move the bought item to the list of already-bough items
             if (undefined !== itemBought) {
-                itemsToBuy.splice(itemsToBuy.indexOf(itemBought), 1);
+                itemsToBuy.splice(itemIndex, 1);
                 itemsBought.push(itemBought);
             }
+            
+            // Update isEmpty variables
+            service.isItemsToBuyEmpty = isItemListEmpty(itemsToBuy);
+            service.isItemsBoughtEmpty = isItemListEmpty(itemsBought);
         }
-
-        // service.buyItem("Haggis");
-        // console.log(itemsToBuy);
-        // console.log(itemsBought);
     }
 
+    // Return shopping list of 10 items with random quantities
     function getItemsToBuy() {
         var itemsToBuy = [];
 
@@ -50,14 +83,20 @@
         itemsToBuy.push({ name: "Eggs", quantity: getRandomQuantity() });
         itemsToBuy.push({ name: "Feta", quantity: getRandomQuantity() });
         itemsToBuy.push({ name: "Grapes", quantity: getRandomQuantity() });
-        itemsToBuy.push({ name: "Haggis", quantity: getRandomQuantity() });
+        itemsToBuy.push({ name: "Hamburgers", quantity: getRandomQuantity() });
         itemsToBuy.push({ name: "Ice Cream", quantity: getRandomQuantity() });
         itemsToBuy.push({ name: "Yogurt", quantity: getRandomQuantity() });
 
         return itemsToBuy;
     }
 
+    // Implementation of get-random-quantity function
     function getRandomQuantity() {
         return Math.floor(Math.random() * 9) + 1;
+    }
+
+    // Implementation of is-array-empty function
+    function isItemListEmpty(itemList) {
+        return (undefined !== itemList) && (0 === itemList.length);
     }
 })();
