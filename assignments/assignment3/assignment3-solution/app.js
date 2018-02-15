@@ -40,20 +40,33 @@
         var narrowItDown = this;
 
         narrowItDown.getMatchedMenuItems = function () {
-            // The controller should call the getMatchedMenuItems method when appropriate
-            // and store the result in a property called found attached to the controller
-            // instance.
-            var promise = MenuSearchService.getMatchedMenuItems(narrowItDown.searchTerm);
+            if (undefined === narrowItDown.searchTerm) {
+                narrowItDown.found = [];
+            } else {
+                narrowItDown.searchTerm = narrowItDown.searchTerm.trim();
 
-            promise.then(function (matchedItems) {
-                narrowItDown.found = matchedItems;
-                console.log("narrowItDown.found:", narrowItDown.found);
-            });
+                if ('' === narrowItDown.searchTerm) {
+                    narrowItDown.found = [];
+                } else {
+                    // The controller should call the getMatchedMenuItems method when appropriate
+                    // and store the result in a property called found attached to the controller
+                    // instance.
+                    var promise = MenuSearchService.getMatchedMenuItems(narrowItDown.searchTerm);
+
+                    promise.then(function (matchedItems) {
+                        narrowItDown.found = matchedItems;
+                    });
+                }
+            }
         }
 
         // In the NarrowItDownController, simply remove the item from the found array.
         narrowItDown.removeItem = function (itemIndex) {
             narrowItDown.found.splice(itemIndex, 1);
+        }
+
+        narrowItDown.isItemListEmpty = function () {
+            return isItemListEmpty(narrowItDown.found);
         }
     }
 
@@ -98,5 +111,10 @@
                 console.log("Something went terribly wrong:", error);
             });
         };
+    }
+
+    // Implementation of is-array-empty function
+    function isItemListEmpty(itemList) {
+        return (undefined !== itemList) && (0 === itemList.length);
     }
 })();
