@@ -4,7 +4,35 @@
     angular.module('NarrowItDownApp', [])
         .controller('NarrowItDownController', NarrowItDownController)
         .service('MenuSearchService', MenuSearchService)
-        .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");;
+        .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com")
+        .directive('foundItems', FoundItemsDirective);
+
+    // Declare and create foundItems directive. The list should be displayed
+    // using this directive which takes the found array of items specified on it
+    // as an attribute (think one-way binding with '<'). To implement the functionality
+    // of the "Don't want this one!" button, the directive should also provide
+    // an on-remove attribute that will use function reference binding
+    // to invoke the parent controller removal an item from the found array
+    // based on an index into the found array. The index should be passed in
+    // from the directive to the controller.
+    function FoundItemsDirective() {
+        var ddo = {
+            templateUrl: 'foundItemsList.html'
+            , scope: {
+                items: '<'
+                , onRemove: '&'
+            }
+            , controller: FoundItemsDirectiveController
+            , controllerAs: 'list'
+            , bindToController: true
+        };
+
+        return ddo;
+    }
+
+    function FoundItemsDirectiveController() {
+        var list = this;
+    }
 
     // The NarrowItDownController should be injected with the MenuSearchService.
     NarrowItDownController.$inject = ['MenuSearchService'];
@@ -13,13 +41,19 @@
 
         narrowItDown.getMatchedMenuItems = function () {
             // The controller should call the getMatchedMenuItems method when appropriate
-            // and store the result in a property called found attached to the controller instance.
+            // and store the result in a property called found attached to the controller
+            // instance.
             var promise = MenuSearchService.getMatchedMenuItems(narrowItDown.searchTerm);
 
             promise.then(function (matchedItems) {
                 narrowItDown.found = matchedItems;
-                console.log("narrowItDown.found: " + narrowItDown.found);
+                console.log("narrowItDown.found:", narrowItDown.found);
             });
+        }
+
+        // In the NarrowItDownController, simply remove the item from the found array.
+        narrowItDown.removeItem = function (itemIndex) {
+            narrowItDown.found.splice(itemIndex, 1);
         }
     }
 
@@ -35,7 +69,7 @@
         service.getMatchedMenuItems = function (searchTerm) {
             return $http({
                 method: "GET",
-                url: (ApiBasePath + "/menu_items.jsonssss")
+                url: (ApiBasePath + "/menu_items.json")
             }).then(function (response) {
                 // process result and only keep items that match
                 var foundItems = [];

@@ -1,0 +1,14 @@
+<div class="container table-responsive">
+    <table width="100%" class="table-responsive">
+        <tbody>
+            <tr ng-repeat="item in list.items">
+                <td>{{ item.short_name }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" ng-click="list.onRemove({index: $index});">Don't want this one!</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
