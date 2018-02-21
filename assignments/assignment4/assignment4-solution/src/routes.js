@@ -18,6 +18,13 @@
         url: '/',
         templateUrl: 'src/home.template.html'
       })
+
+      // Menu categories page
+      .state('categories', {
+        url: '/categories',
+        templateUrl: 'src/categories.template.html'
+      })
+
       ;
 
   }
