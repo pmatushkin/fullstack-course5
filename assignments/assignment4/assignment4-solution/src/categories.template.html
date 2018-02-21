@@ -1,11 +1,6 @@
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">
-        <a ui-sref="home">Home</a>
+<ul>
+    <!-- ui-sref="mainList.itemDetail({itemId: $index})" -->
+    <li ng-repeat="item in $ctrl.items">
+        {{ item.short_name }} of {{ item.name }}
     </li>
-    <li class="breadcrumb-item active">Menu</li>
-</ol>
-
-<h2>Menu</h2>
-<!-- <shopping-list items="mainList.items"></shopping-list> -->
-
-<ui-view></ui-view>
+</ul>
