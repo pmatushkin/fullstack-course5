@@ -4,10 +4,8 @@
     angular.module('data')
         .service('MenuDataService', MenuDataService);
 
-    MenuDataService.$inject = ['$http', '$httpParamSerializer'
-        , 'ApiBasePath', 'CategoryListEndPoint', 'ItemsForCategoryParameter_Category', 'ItemsForCategoryEndPoint']
-    function MenuDataService($http, $httpParamSerializer
-        , ApiBasePath, CategoryListEndPoint, ItemsForCategoryParameter_Category, ItemsForCategoryEndPoint) {
+    MenuDataService.$inject = ['$http', '$httpParamSerializer', 'ApiBasePath', 'CategoryListEndPoint', 'ItemsForCategoryEndPoint']
+    function MenuDataService($http, $httpParamSerializer, ApiBasePath, CategoryListEndPoint, ItemsForCategoryEndPoint) {
         var service = this;
 
         service.getAllCategories = function () {
@@ -17,13 +15,10 @@
             var _url = ApiBasePath + CategoryListEndPoint;
             console.log(_method, _url);
 
-            var _result;
-
             return $http({
                 method: _method
                 , url: _url
             }).then(function (response) {
-                // console.log(response.data);
                 return response.data;
             }).catch(function (error) {
                 console.log("Something went terribly wrong:", error);
@@ -35,17 +30,18 @@
             console.log('MenuDataService.getItemsForCategory(' + categoryShortName + ')');
 
             var _method = "GET";
-            var _query = $httpParamSerializer({ ItemsForCategoryParameter_Category, categoryShortName });
-            var _url = ApiBasePath + ItemsForCategoryEndPoint + '?' + query;
+            var _query = $httpParamSerializer({ category: categoryShortName });
+            var _url = ApiBasePath + ItemsForCategoryEndPoint + '?' + _query;
             console.log(_method, _url);
 
             return $http({
                 method: _method
                 , url: _url
             }).then(function (response) {
-                console.log(response);
+                return response.data;
             }).catch(function (error) {
                 console.log("Something went terribly wrong:", error);
+                return [];
             });
         }
     }

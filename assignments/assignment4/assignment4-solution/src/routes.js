@@ -31,6 +31,19 @@
         }
       })
 
+      // Category items page
+      .state('items', {
+        url: '/items?{categoryId}'
+        , templateUrl: 'src/itemsPage.template.html'
+        , controller: 'ItemsController as itemsList'
+        , resolve: {
+          items: ['$stateParams', 'MenuDataService', function ($stateParams, MenuDataService) {
+            console.log($stateParams);
+            return MenuDataService.getItemsForCategory($stateParams.categoryId);
+          }]
+        }
+      })
+
       ;
 
   }

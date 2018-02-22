@@ -1,6 +1,5 @@
 <ul>
-    <!-- ui-sref="mainList.itemDetail({itemId: $index})" -->
     <li ng-repeat="item in $ctrl.items">
-        {{ item.short_name }} of {{ item.name }}
+        <a ui-sref="items({categoryId: item.short_name})">{{ item.name }}</a>
     </li>
 </ul>
