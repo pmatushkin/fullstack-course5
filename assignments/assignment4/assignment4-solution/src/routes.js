@@ -16,13 +16,13 @@
       // Home page
       .state('home', {
         url: '/'
-        , templateUrl: 'src/homePage.template.html'
+        , templateUrl: 'src/templates/homePage.template.html'
       })
 
-      // Menu categories page
+      // Categories page
       .state('categories', {
         url: '/categories'
-        , templateUrl: 'src/categoriesPage.template.html'
+        , templateUrl: 'src/templates/categoriesPage.template.html'
         , controller: 'CategoriesController as categoriesList'
         , resolve: {
           items: ['MenuDataService', function (MenuDataService) {
@@ -31,14 +31,13 @@
         }
       })
 
-      // Category items page
+      // Menu items page
       .state('items', {
         url: '/items?{categoryId}'
-        , templateUrl: 'src/itemsPage.template.html'
+        , templateUrl: 'src/templates/itemsPage.template.html'
         , controller: 'ItemsController as itemsList'
         , resolve: {
           items: ['$stateParams', 'MenuDataService', function ($stateParams, MenuDataService) {
-            console.log($stateParams);
             return MenuDataService.getItemsForCategory($stateParams.categoryId);
           }]
         }

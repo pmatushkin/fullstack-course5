@@ -8,8 +8,8 @@
     function ItemsController(items) {
         var itemsList = this;
 
-        console.log(items.category);
-        console.log(items.menu_items);
+        console.log('category', items.category);
+        console.log('menu items', items.menu_items);
 
         itemsList.category = items.category;
         itemsList.items = items.menu_items;
