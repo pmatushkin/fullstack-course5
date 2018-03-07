@@ -4,8 +4,8 @@
     angular.module('public')
         .controller('SignupController', SignupController);
 
-    SignupController.$inject = ['$scope', 'MenuService'];
-    function SignupController($scope, MenuService) {
+    SignupController.$inject = ['$scope', 'MenuService', 'UserService'];
+    function SignupController($scope, MenuService, UserService) {
         var ctrl = this;
 
         ctrl.user = {
@@ -34,8 +34,7 @@
         }
 
         ctrl.submit = function () {
-            console.log('user', ctrl.user);
+            UserService.setUser(ctrl.user);
         }
     }
-
 })();
