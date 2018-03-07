@@ -17,6 +17,8 @@
             menuItem: {}
         };
 
+        ctrl.success = false;
+
         // For details on setting validity of an input field see https://stackoverflow.com/a/22986254
         ctrl.getMenuItem = function () {
             // To invalidate the form (including the Submit button) set field validity to FALSE until the validation completes.
@@ -37,6 +39,7 @@
 
         ctrl.submit = function () {
             UserService.setUser(ctrl.user);
+            ctrl.success = true;
         }
     }
 })();
