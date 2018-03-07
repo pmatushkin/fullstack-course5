@@ -14,7 +14,7 @@
             email: '',
             phoneNumber: '',
             itemShortName: '',
-            item: {}
+            menuItem: {}
         };
 
         // For details on setting validity of an input field see https://stackoverflow.com/a/22986254
@@ -26,12 +26,12 @@
             promise.then(function (response) {
                 // Validation completed, the field content is a valid menu item short name. Set validity to TRUE.
                 $scope.signupForm.itemShortName.$setValidity("itemShortName", true);
-                ctrl.user.item = response.data;
+                ctrl.user.menuItem = response.data;
             })
                 .catch(function (error) {
                     // Validation completed, the field content is NOT a valid menu item short name. Set validity to FALSE.
                     $scope.signupForm.itemShortName.$setValidity("itemShortName", false);
-                    ctrl.user.item = {};
+                    ctrl.user.menuItem = {};
                 });
         }
 
